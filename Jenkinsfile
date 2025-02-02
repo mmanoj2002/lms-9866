@@ -14,6 +14,7 @@ pipeline {
             steps {
                 sh "curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -"
                 sh "sudo apt-get install -y nodejs"
+                sh "pwd && ls -al"
             }
         }
         stage('Build Backend API For LMS') {
