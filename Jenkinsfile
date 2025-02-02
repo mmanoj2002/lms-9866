@@ -19,8 +19,8 @@ pipeline {
         }
         stage('Build Backend API For LMS') {
             steps {
-                sh "cd api && npm install && npm run build"
-                sh "ls -al api"
+                sh "cd api && npx prisma generate && sudo npx prisma db push && npm install && npm run build"
+                sh "ls -al api/build"
             }
         }
     }
