@@ -12,15 +12,14 @@ pipeline {
         }
         stage('Install Packages') {
             steps {
-                sh "curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -"
-                sh "sudo apt-get install -y nodejs"
-                sh "pwd && ls -al"
+                sh "curl -sL https://get.docker.com | sudo bash -"
+                
             }
         }
-        stage('Build Backend API For LMS') {
+        stage('Docker Build and Push Backend API For LMS') {
             steps {
-                sh "cd api && npx prisma generate && sudo npx prisma db push && npm install && npm run build"
-                sh "ls -al api/build"
+                sh "docker build -t mmanoj2002/lms-api:latest."
+                sh "docker images"
             }
         }
     }
