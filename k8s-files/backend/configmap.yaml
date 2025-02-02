@@ -9,3 +9,4 @@ data:
   DB_NAME: postgres
   PORT: "3000"
   MODE: production
+  DB_PASSWORD: admin1234
