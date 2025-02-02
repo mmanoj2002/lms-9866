@@ -18,18 +18,26 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh """
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                        docker build -t mmanoj2002/lms-webapp:latest api/
-                        docker push mmanoj2002/lms-webapp:latest
+                        docker build -t mmanoj2002/lms-api:latest api/
+                        docker push mmanoj2002/lms-api:latest
                         docker logout
                         """
                     }
                 }
         }
+        }
         stage('Docker Build and Push Webapp For LMS') {
             steps {
-                sh "echo $USER"
-                sh "docker build -t mmanoj2002/lms-webapp:latest webapp/"
-                sh "docker push mmanoj2002/lms-webapp:latest"
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker build -t mmanoj2002/lms-web-app:latest webapp/
+                        docker push mmanoj2002/lms-web-app:latest
+                        docker logout
+                        """
+                    }
+                }
             }
         }
     }
