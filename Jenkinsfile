@@ -1,6 +1,7 @@
 pipeline {
     agent {
             label 'kubeagent'
+            defaultContainer 'ubuntu'
     }
     stages {
         stage('Installed Required Packages in Ubuntu Container') {
