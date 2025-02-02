@@ -1,9 +1,9 @@
 pipeline {
     agent {
         kubernetes {
-            label 'docker'  // Label to match the pod template defined in Jenkins
-            inheritFrom 'docker-agent'  // Inherit settings from a global pod template called 'docker-agent'
-            defaultContainer 'docker'  // Define which container should be used as the default for all steps
+            label 'docker'
+            inheritFrom 'docker-agent'
+            defaultContainer 'docker'
             yaml """
 apiVersion: v1
 kind: Pod
@@ -13,7 +13,7 @@ metadata:
 spec:
   containers:
   - name: docker
-    image: 'docker:latest'  // Docker image to use for the container
+    image: 'docker:latest'
     command:
     - cat
     tty: true
@@ -24,7 +24,7 @@ spec:
       requests:
         memory: "2Gi"
         cpu: "1"
-  serviceAccountName: default  // Ensure you have the correct service account if needed
+  serviceAccountName: default
 """
         }
     }
