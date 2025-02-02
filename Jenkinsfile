@@ -12,8 +12,8 @@ pipeline {
         }
         stage('Install Packages') {
             steps {
-                sh "curl -sL https://deb.nodesource.com/setup_16.x | bash -
-                sh "apt-get upadte && apt-get install -y nodejs"
+                sh "curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -"
+                sh "sudo apt-get install -y nodejs"
             }
         }
     }
