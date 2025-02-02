@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            label 'docker'  // Label of the pod template
+            defaultContainer 'docker'  // Default container inside the pod
+        }
+    }
     stages {
         stage('Checkout Code') {
             steps {
@@ -8,14 +13,6 @@ pipeline {
                     branches: [[name: '*/qa']],  // Replace 'main' with your branch
                     userRemoteConfigs: [[url: 'https://github.com/mmanoj2002/lms-9866.git']]
                 ])
-            }
-        }
-        stage('Install Packages') {
-            steps {
-                sh "apt update && apt install apt-transport-https ca-certificates curl software-properties-common -y && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
-                sh "apt update"
-                sh "apt install docker-ce -y"
-                sh "service docker status"
             }
         }
         stage('Docker Build and Push Backend API For LMS') {
