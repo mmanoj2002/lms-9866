@@ -5,9 +5,9 @@ pipeline {
     stages {
         stage('Installed Required Packages in Ubuntu Container') {
             steps {
-                sh "apt update"
-                sh "apt install git -y"
-                sh "apt install docker.io -y"
+                sh "sudo apt update"
+                sh "sudo apt install git -y"
+                sh "sudo apt install docker.io -y"
             }
         }
         stage('Checkout Code') {
