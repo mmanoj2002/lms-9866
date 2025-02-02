@@ -1,6 +1,6 @@
 pipeline {
     agent {
-            label 'docker'
+            label 'k8s-agent'
     }
     stages {
         stage('Checkout Code') {
