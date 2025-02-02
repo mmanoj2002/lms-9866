@@ -16,7 +16,7 @@ pipeline {
              steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        def version = sh(script: "jq -r '.version' package.json", returnStdout: true).trim()
+                        def version = sh(script: "jq -r '.version' api/package.json", returnStdout: true).trim()
                         sh """
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker build -t mmanoj2002/lms-api:$version api/
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        def version = sh(script: "jq -r '.version' package.json", returnStdout: true).trim()
+                        def version = sh(script: "jq -r '.version' weapp/package.json", returnStdout: true).trim()
                         sh """
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker build -t mmanoj2002/lms-web-app:$version webapp/
