@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh "apt update && apt install apt-transport-https ca-certificates curl software-properties-common && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
                 sh "apt update"
-                sh "apt install docker-ce"
+                sh "apt install docker-ce -y"
                 sh "service docker status"
             }
         }
