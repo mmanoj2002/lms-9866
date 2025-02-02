@@ -2,30 +2,7 @@ pipeline {
     agent {
         kubernetes {
             label 'docker'
-            inheritFrom 'docker-agent'
-            defaultContainer 'docker'
-            yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: lms-9866
-spec:
-  containers:
-  - name: docker
-    image: 'docker:latest'
-    command:
-    - cat
-    tty: true
-    resources:
-      limits:
-        memory: "4Gi"
-        cpu: "2"
-      requests:
-        memory: "2Gi"
-        cpu: "1"
-  serviceAccountName: default
-"""
+
         }
     }
     stages {
