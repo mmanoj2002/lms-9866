@@ -13,10 +13,17 @@ pipeline {
             }
         }
         stage('Docker Build and Push Backend API For LMS') {
-            steps {
-                sh "docker build -t mmanoj2002/lms-api:latest api/"
-                sh "docker push mmanoj2002/lms-api:latest"
-            }
+             steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker build -t mmanoj2002/lms-webapp:latest api/
+                        docker push mmanoj2002/lms-webapp:latest
+                        docker logout
+                        """
+                    }
+                }
         }
         stage('Docker Build and Push Webapp For LMS') {
             steps {
