@@ -16,5 +16,12 @@ pipeline {
                 sh "sudo apt-get install -y nodejs"
             }
         }
+        stage('Build Backend API For LMS') {
+            steps {
+                sh "cd api"
+                sh "npm install && npm run build"
+                sh "ls -al"
+            }
+        }
     }
 }
