@@ -2,7 +2,6 @@ pipeline {
     agent {
         kubernetes {
             label 'docker'  // Label of the pod template
-            defaultContainer 'docker'  // Default container inside the pod
         }
     }
     stages {
