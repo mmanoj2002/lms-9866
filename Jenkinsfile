@@ -1,9 +1,6 @@
 pipeline {
     agent {
-        kubernetes {
             label 'docker'
-
-        }
     }
     stages {
         stage('Checkout Code') {
