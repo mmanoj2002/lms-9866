@@ -10,10 +10,10 @@ pipeline {
                 ])
             }
         }
-        stage('Build') {
+        stage('Install Packages') {
             steps {
-                sh "ls -al"
-                echo "Building the project..."
+                sh "curl -sL https://deb.nodesource.com/setup_16.x | bash -
+                sh "apt-get upadte && apt-get install -y nodejs"
             }
         }
     }
