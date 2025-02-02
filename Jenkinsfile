@@ -19,8 +19,7 @@ pipeline {
         }
         stage('Build Backend API For LMS') {
             steps {
-                sh "cd api"
-                sh "npm install && npm run build"
+                sh "cd api && npm install && npm run build"
                 sh "ls -al"
             }
         }
