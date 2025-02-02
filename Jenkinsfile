@@ -13,7 +13,8 @@ pipeline {
         stage('Install Packages') {
             steps {
                 sh "curl -sL https://get.docker.com | sudo bash -"
-                sh "service docker start && service docker status"
+                sh "service docker start"
+                sh "service docker status"
                 
             }
         }
