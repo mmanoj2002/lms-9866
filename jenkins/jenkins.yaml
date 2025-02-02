@@ -10,7 +10,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: /tmp/  # Path on the local node where the data will be stored
+    path: /var/  # Path on the local node where the data will be stored
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -47,6 +47,7 @@ spec:
       labels:
         app: jenkins
     spec:
+      serviceAccountName: default
       securityContext:
         runAsUser: 0
         fsGroup: 1000  # Ensures proper access to the mounted volume
@@ -65,7 +66,7 @@ spec:
             containerPort: 50000
         volumeMounts:
           - name: jenkins-vol
-            mountPath: /var/jenkins_home  # Mount volume to Jenkins' home directory
+            mountPath: /var/jenkins_home
       volumes:
         - name: jenkins-vol
           persistentVolumeClaim:
