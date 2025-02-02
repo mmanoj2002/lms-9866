@@ -2,6 +2,7 @@ pipeline {
     agent {
         kubernetes {
             label 'docker'  // Label of the pod template
+            inheritFrom 'docker-agent' 
         }
     }
     stages {
