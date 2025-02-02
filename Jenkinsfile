@@ -3,7 +3,7 @@ pipeline {
             label 'kubeagent'
     }
     stages {
-        stage('Installed Required Packages') {
+        stage('Installed Required Packages in Ubuntu Container') {
             steps {
                 sh "apt update"
                 sh "apt install git -y"
