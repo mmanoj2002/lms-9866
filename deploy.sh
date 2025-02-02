@@ -10,4 +10,4 @@ fi
 
 docker compose up -d --build "api-server" "web-server"
 
-echo "Deployment done!!!"
+echo "Deployment done!!!!"
