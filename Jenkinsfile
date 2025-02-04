@@ -22,21 +22,16 @@ spec:
         }
     }
 
+    environment {
+        KUBECONFIG = "$WORKSPACE/k8s-sa-token"
+    }
+
     stages {
         stage('Install Packages') {
             steps {
                 container('alpine') {
                     script {
-                        sh 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
-                        sh 'apk update'
-                        sh 'apk add --no-cache jq kubectl git vim iputils busybox-extras openrc curl bash wget docker-cli dhcpcd'
-                        sh 'apk add docker'
-                        sh 'rc-update add docker boot'
-                        sh 'mkdir -p /run/openrc && touch /run/openrc/softlevel && rc-update add devfs && rc-update add dmesg && openrc'
-                        sh 'rc-service dhcpcd start'
-                        sh 'service docker start || true'
-                        sh 'sleep 5'
-                        sh 'docker ps'
+                        sh 'apk update && apk add --no-cache jq kubectl git curl bash wget'
                     }
                 }
             }
@@ -47,6 +42,18 @@ spec:
                 container('alpine') {
                     retry(3) {
                         sh 'git clone -b qa https://github.com/mmanoj2002/lms-9866.git'
+                    }
+                }
+            }
+        }
+
+        stage('Access Kubernetes Using Kubeconfig') {
+            steps {
+                container('alpine') {
+                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                        sh 'cp $KUBECONFIG_FILE $KUBECONFIG'
+                        sh 'kubectl config view'
+                        sh 'kubectl get pods -n qa'
                     }
                 }
             }
