@@ -63,6 +63,7 @@ spec:
                             docker build -t mmanoj2002/lms-api:$version lms-9866/api/
                             docker push mmanoj2002/lms-api:$version
                             docker logout
+                            kubectl get pods -n qa
                             """
                         }
                     }
@@ -81,6 +82,7 @@ spec:
                             docker build -t mmanoj2002/lms-web-app:$version lms-9866/webapp/
                             docker push mmanoj2002/lms-web-app:$version
                             docker logout
+                            kubectl get pods -n qa
                             """
                         }
                     }
