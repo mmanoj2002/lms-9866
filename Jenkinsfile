@@ -31,7 +31,7 @@ spec:
             steps {
                 container('alpine') {
                     script {
-                        sh 'apk update && apk add --no-cache jq kubectl git curl bash wget'
+                        sh 'apk update && apk add --no-cache jq kubectl git curl bash wget aws-cli'
                     }
                 }
             }
@@ -47,18 +47,24 @@ spec:
             }
         }
 
-        stage('Access Kubernetes Using Kubeconfig') {
+        stage('Access AWS and Kubernetes Using AWS CLI') {
             steps {
                 container('alpine') {
-                script {
-                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                        sh '''
-                        export KUBECONFIG=$KUBECONFIG
-                        kubectl get pods
-                        '''
+                    script {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                            sh '''
+                            # Set the AWS region if necessary
+                            export AWS_DEFAULT_REGION="ap-south-1"
+                            
+                            # Update kubeconfig for EKS cluster
+                            aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name LMS-App
+                            
+                            # Verify Kubernetes connection
+                            kubectl get pods
+                            '''
+                        }
                     }
                 }
-            }
             }
         }
 
