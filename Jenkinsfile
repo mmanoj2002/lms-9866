@@ -31,7 +31,15 @@ spec:
             steps {
                 container('alpine') {
                     script {
-                        sh 'apk update && apk add --no-cache jq kubectl git curl bash wget aws-cli'
+                        sh 'apk update'
+                        sh 'apk add --no-cache jq kubectl git vim iputils busybox-extras openrc curl bash wget docker-cli dhcpcd aws-cli'
+                        sh 'apk add docker'
+                        sh 'rc-update add docker boot'
+                        sh 'mkdir -p /run/openrc && touch /run/openrc/softlevel && rc-update add devfs && rc-update add dmesg && openrc'
+                        sh 'rc-service dhcpcd start'
+                        sh 'service docker start || true'
+                        sh 'sleep 5'
+                        sh 'docker ps'
                     }
                 }
             }
