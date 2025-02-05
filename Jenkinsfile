@@ -50,12 +50,15 @@ spec:
         stage('Access Kubernetes Using Kubeconfig') {
             steps {
                 container('alpine') {
-                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                        sh 'cp $KUBECONFIG_FILE $KUBECONFIG'
-                        sh 'kubectl config view'
-                        sh 'kubectl get pods -n qa'
+                script {
+                    withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                        sh '''
+                        export KUBECONFIG=$KUBECONFIG
+                        kubectl get pods
+                        '''
                     }
                 }
+            }
             }
         }
 
