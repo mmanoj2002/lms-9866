@@ -23,6 +23,8 @@ spec:
     }
 
     environment {
+        // AWS Credentials set globally
+        AWS_DEFAULT_REGION = "ap-south-1"
         KUBECONFIG = "$WORKSPACE/k8s-sa-token"
     }
 
@@ -62,12 +64,10 @@ spec:
                         withCredentials([string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                                          string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')]) {
                             sh '''
-                            # Set the AWS region
-                            export AWS_DEFAULT_REGION="ap-south-1"
-
-                            # Export AWS credentials
+                            # Export AWS credentials globally for CLI commands
                             export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"
                             export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"
+                            export AWS_DEFAULT_REGION="$AWS_DEFAULT_REGION"
 
                             # Update kubeconfig for EKS cluster
                             aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name LMS-App
